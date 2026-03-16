@@ -9,300 +9,106 @@
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
-
 <style>
   :root {
-    --navy: #0D1B2A;
-    --navy-light: #1A2E42;
-    --accent: #F5C518;
-    --accent-dark: #D4A900;
-    --surface: #F7F9FC;
-    --white: #FFFFFF;
-    --border: #E2E8F0;
-    --text: #0D1B2A;
-    --text-muted: #64748B;
-    --text-light: #94A3B8;
-    --success: #10B981;
-    --error: #EF4444;
-    --radius: 12px;
-    --radius-sm: 8px;
+    --navy: #0D1B2A; --navy-light: #1A2E42; --accent: #F5C518; --accent-dark: #D4A900;
+    --surface: #F7F9FC; --white: #FFFFFF; --border: #E2E8F0; --text: #0D1B2A;
+    --text-muted: #64748B; --text-light: #94A3B8; --success: #10B981; --error: #EF4444;
+    --radius: 12px; --radius-sm: 8px;
   }
-
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    font-family: 'Outfit', sans-serif;
-    background: var(--surface);
-    color: var(--text);
-    min-height: 100vh;
-    padding-bottom: 40px;
-  }
-
-  .header {
-    background: var(--navy);
-    padding: 20px 20px 24px;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-  .header-inner {
-    max-width: 560px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-  }
-  .header-badge {
-    background: var(--accent);
-    border-radius: 8px;
-    width: 42px;
-    height: 42px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-  }
+  body { font-family: 'Outfit', sans-serif; background: var(--surface); color: var(--text); min-height: 100vh; padding-bottom: 40px; }
+  .header { background: var(--navy); padding: 20px 20px 24px; position: sticky; top: 0; z-index: 100; }
+  .header-inner { max-width: 560px; margin: 0 auto; display: flex; align-items: center; gap: 14px; }
+  .header-badge { background: var(--accent); border-radius: 8px; width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
   .header-badge svg { width: 22px; height: 22px; }
   .header-title { color: var(--white); font-size: 16px; font-weight: 600; line-height: 1.2; }
   .header-sub { color: #94A3B8; font-size: 12px; font-weight: 400; margin-top: 2px; }
-
   .progress-bar { background: var(--navy-light); height: 3px; }
   .progress-fill { background: var(--accent); height: 100%; width: 0%; transition: width 0.4s ease; }
-
   .container { max-width: 560px; margin: 0 auto; padding: 24px 16px 0; }
-
-  .section-label {
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--text-muted);
-    margin: 28px 0 12px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
+  .section-label { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); margin: 28px 0 12px; display: flex; align-items: center; gap: 8px; }
   .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
   .section-label:first-child { margin-top: 0; }
-
-  .card {
-    background: var(--white);
-    border-radius: var(--radius);
-    border: 1px solid var(--border);
-    padding: 16px;
-    margin-bottom: 12px;
-  }
-
+  .card { background: var(--white); border-radius: var(--radius); border: 1px solid var(--border); padding: 16px; margin-bottom: 12px; }
   .field { margin-bottom: 16px; }
   .field:last-child { margin-bottom: 0; }
   .field label { display: block; font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 6px; }
   .field label span.req { color: var(--error); margin-left: 2px; }
-
-  .field input[type="text"],
-  .field input[type="tel"],
-  .field input[type="number"],
-  .field select,
-  .field textarea {
-    width: 100%;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    padding: 11px 14px;
-    font-family: 'Outfit', sans-serif;
-    font-size: 15px;
-    color: var(--text);
-    outline: none;
-    transition: border-color 0.2s, box-shadow 0.2s;
-    -webkit-appearance: none;
+  .field input[type="text"], .field input[type="tel"], .field input[type="number"], .field select, .field textarea {
+    width: 100%; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm);
+    padding: 11px 14px; font-family: 'Outfit', sans-serif; font-size: 15px; color: var(--text);
+    outline: none; transition: border-color 0.2s, box-shadow 0.2s; -webkit-appearance: none;
   }
-  .field input:focus, .field select:focus, .field textarea:focus {
-    border-color: var(--navy);
-    box-shadow: 0 0 0 3px rgba(13,27,42,0.08);
-    background: var(--white);
-  }
+  .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--navy); box-shadow: 0 0 0 3px rgba(13,27,42,0.08); background: var(--white); }
   .field input::placeholder, .field textarea::placeholder { color: var(--text-light); }
   .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-
-  .coord-tabs {
-    display: flex;
-    background: var(--surface);
-    border-radius: var(--radius-sm);
-    padding: 3px;
-    margin-bottom: 14px;
-    border: 1px solid var(--border);
-    gap: 2px;
-  }
-  .coord-tab {
-    flex: 1;
-    padding: 9px 6px;
-    border: none;
-    background: transparent;
-    border-radius: 6px;
-    font-family: 'Outfit', sans-serif;
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--text-muted);
-    cursor: pointer;
-    transition: all 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 5px;
-  }
+  .coord-tabs { display: flex; background: var(--surface); border-radius: var(--radius-sm); padding: 3px; margin-bottom: 14px; border: 1px solid var(--border); gap: 2px; }
+  .coord-tab { flex: 1; padding: 9px 6px; border: none; background: transparent; border-radius: 6px; font-family: 'Outfit', sans-serif; font-size: 12px; font-weight: 500; color: var(--text-muted); cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 5px; }
   .coord-tab.active { background: var(--navy); color: var(--white); box-shadow: 0 1px 4px rgba(0,0,0,0.15); }
   .coord-tab svg { width: 14px; height: 14px; flex-shrink: 0; }
-
   .coord-panel { display: none; }
   .coord-panel.active { display: block; }
-
-  .gps-btn {
-    width: 100%;
-    padding: 14px;
-    background: var(--navy);
-    color: var(--white);
-    border: none;
-    border-radius: var(--radius-sm);
-    font-family: 'Outfit', sans-serif;
-    font-size: 15px;
-    font-weight: 500;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    transition: background 0.2s, transform 0.1s;
-    -webkit-tap-highlight-color: transparent;
-  }
+  .gps-btn { width: 100%; padding: 14px; background: var(--navy); color: var(--white); border: none; border-radius: var(--radius-sm); font-family: 'Outfit', sans-serif; font-size: 15px; font-weight: 500; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; transition: background 0.2s, transform 0.1s; -webkit-tap-highlight-color: transparent; }
   .gps-btn:active { transform: scale(0.98); background: var(--navy-light); }
   .gps-btn svg { width: 18px; height: 18px; flex-shrink: 0; }
-
-  .gps-result {
-    margin-top: 12px; padding: 12px 14px;
-    background: #ECFDF5; border: 1px solid #A7F3D0;
-    border-radius: var(--radius-sm); display: none;
-    font-size: 13px; color: #065F46; font-weight: 500;
-    align-items: center; gap: 8px;
-  }
+  .gps-result { margin-top: 12px; padding: 12px 14px; background: #ECFDF5; border: 1px solid #A7F3D0; border-radius: var(--radius-sm); display: none; font-size: 13px; color: #065F46; font-weight: 500; align-items: center; gap: 8px; }
   .gps-result.show { display: flex; }
   .gps-result svg { width: 16px; height: 16px; flex-shrink: 0; }
-
-  .gps-error {
-    margin-top: 12px; padding: 12px 14px;
-    background: #FEF2F2; border: 1px solid #FECACA;
-    border-radius: var(--radius-sm); display: none;
-    font-size: 13px; color: #991B1B; align-items: center; gap: 8px;
-  }
+  .gps-error { margin-top: 12px; padding: 12px 14px; background: #FEF2F2; border: 1px solid #FECACA; border-radius: var(--radius-sm); display: none; font-size: 13px; color: #991B1B; align-items: center; gap: 8px; }
   .gps-error.show { display: flex; }
-
   #map-container { border-radius: var(--radius-sm); overflow: hidden; border: 1px solid var(--border); }
   #locator-map { height: 240px; width: 100%; }
-  .map-hint {
-    padding: 8px 12px; background: var(--surface); font-size: 12px;
-    color: var(--text-muted); display: flex; align-items: center; gap: 6px;
-    border-top: 1px solid var(--border);
-  }
+  .map-hint { padding: 8px 12px; background: var(--surface); font-size: 12px; color: var(--text-muted); display: flex; align-items: center; gap: 6px; border-top: 1px solid var(--border); }
   .map-hint svg { width: 12px; height: 12px; }
-  .map-coords-display {
-    margin-top: 10px; padding: 10px 12px; background: var(--surface);
-    border-radius: var(--radius-sm); border: 1px solid var(--border);
-    font-size: 13px; color: var(--text); font-family: monospace; display: none;
-  }
+  .map-coords-display { margin-top: 10px; padding: 10px 12px; background: var(--surface); border-radius: var(--radius-sm); border: 1px solid var(--border); font-size: 13px; color: var(--text); font-family: monospace; display: none; }
   .map-coords-display.show { display: block; }
-
-  .photo-drop {
-    border: 2px dashed var(--border); border-radius: var(--radius-sm);
-    padding: 24px 16px; text-align: center; cursor: pointer;
-    transition: border-color 0.2s, background 0.2s; position: relative;
-  }
+  .photo-drop { border: 2px dashed var(--border); border-radius: var(--radius-sm); padding: 24px 16px; text-align: center; cursor: pointer; transition: border-color 0.2s, background 0.2s; position: relative; }
   .photo-drop:hover, .photo-drop.drag-over { border-color: var(--navy); background: rgba(13,27,42,0.03); }
   .photo-drop input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
   .photo-drop-icon { font-size: 28px; margin-bottom: 8px; }
   .photo-drop-text { font-size: 14px; font-weight: 500; color: var(--text); }
   .photo-drop-sub { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
-
   .photo-previews { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 12px; }
   .photo-thumb { aspect-ratio: 1; border-radius: var(--radius-sm); overflow: hidden; position: relative; border: 1px solid var(--border); }
   .photo-thumb img { width: 100%; height: 100%; object-fit: cover; }
-  .photo-thumb-remove {
-    position: absolute; top: 4px; right: 4px; width: 20px; height: 20px;
-    border-radius: 50%; background: rgba(0,0,0,0.6); color: white; border: none;
-    cursor: pointer; display: flex; align-items: center; justify-content: center;
-    font-size: 12px; line-height: 1;
-  }
-
-  .submit-btn {
-    width: 100%; padding: 16px; background: var(--accent); color: var(--navy);
-    border: none; border-radius: var(--radius); font-family: 'Outfit', sans-serif;
-    font-size: 16px; font-weight: 700; cursor: pointer; display: flex;
-    align-items: center; justify-content: center; gap: 10px; margin-top: 24px;
-    transition: background 0.2s, transform 0.1s; -webkit-tap-highlight-color: transparent;
-    letter-spacing: 0.01em;
-  }
+  .photo-thumb-remove { position: absolute; top: 4px; right: 4px; width: 20px; height: 20px; border-radius: 50%; background: rgba(0,0,0,0.6); color: white; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 12px; line-height: 1; }
+  .submit-btn { width: 100%; padding: 16px; background: var(--accent); color: var(--navy); border: none; border-radius: var(--radius); font-family: 'Outfit', sans-serif; font-size: 16px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 24px; transition: background 0.2s, transform 0.1s; -webkit-tap-highlight-color: transparent; letter-spacing: 0.01em; }
   .submit-btn:hover { background: var(--accent-dark); }
   .submit-btn:active { transform: scale(0.98); }
   .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
   .submit-btn svg { width: 18px; height: 18px; }
-
-  .success-screen {
-    display: none; flex-direction: column; align-items: center;
-    justify-content: center; min-height: 60vh; text-align: center; padding: 40px 24px;
-  }
+  .success-screen { display: none; flex-direction: column; align-items: center; justify-content: center; min-height: 60vh; text-align: center; padding: 40px 24px; }
   .success-screen.show { display: flex; }
-  .success-icon {
-    width: 72px; height: 72px; border-radius: 50%; background: #ECFDF5;
-    display: flex; align-items: center; justify-content: center;
-    margin-bottom: 20px; border: 2px solid #A7F3D0;
-  }
+  .success-icon { width: 72px; height: 72px; border-radius: 50%; background: #ECFDF5; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; border: 2px solid #A7F3D0; }
   .success-icon svg { width: 36px; height: 36px; color: var(--success); }
   .success-title { font-size: 22px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
   .success-sub { font-size: 15px; color: var(--text-muted); line-height: 1.6; max-width: 320px; }
-  .success-new-btn {
-    margin-top: 28px; padding: 13px 28px; background: var(--navy); color: var(--white);
-    border: none; border-radius: var(--radius); font-family: 'Outfit', sans-serif;
-    font-size: 15px; font-weight: 600; cursor: pointer; transition: background 0.2s;
-  }
+  .success-new-btn { margin-top: 28px; padding: 13px 28px; background: var(--navy); color: var(--white); border: none; border-radius: var(--radius); font-family: 'Outfit', sans-serif; font-size: 15px; font-weight: 600; cursor: pointer; transition: background 0.2s; }
   .success-new-btn:hover { background: var(--navy-light); }
-
-  .spinner {
-    width: 18px; height: 18px; border: 2px solid rgba(13,27,42,0.3);
-    border-top-color: var(--navy); border-radius: 50%;
-    animation: spin 0.7s linear infinite; display: none;
-  }
+  .spinner { width: 18px; height: 18px; border: 2px solid rgba(13,27,42,0.3); border-top-color: var(--navy); border-radius: 50%; animation: spin 0.7s linear infinite; display: none; }
   .spinner.show { display: block; }
   @keyframes spin { to { transform: rotate(360deg); } }
-
   .field-error { font-size: 12px; color: var(--error); margin-top: 5px; display: none; }
   .field-error.show { display: block; }
   .field input.invalid, .field select.invalid, .field textarea.invalid { border-color: var(--error); }
-
-  .submit-error {
-    margin-top: 12px; padding: 12px 14px; background: #FEF2F2;
-    border: 1px solid #FECACA; border-radius: var(--radius-sm);
-    display: none; font-size: 13px; color: #991B1B; line-height: 1.45;
-  }
+  .submit-error { margin-top: 12px; padding: 12px 14px; background: #FEF2F2; border: 1px solid #FECACA; border-radius: var(--radius-sm); display: none; font-size: 13px; color: #991B1B; line-height: 1.45; }
   .submit-error.show { display: block; }
-
   .footer-note { text-align: center; font-size: 11px; color: var(--text-light); margin-top: 16px; padding-bottom: 8px; }
-
-  @media (min-width: 600px) {
-    .container { padding: 28px 24px 0; }
-    .card { padding: 20px; }
-    .header { padding: 24px 24px 28px; }
-  }
+  @media (min-width: 600px) { .container { padding: 28px 24px 0; } .card { padding: 20px; } .header { padding: 24px 24px 28px; } }
 </style>
 </head>
 <body>
 
 <script>
-const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw51p_1X5yAf-80bCduM20bLVwAtL1vM61mG78j_87RpT6msnoiRrbOkCUSKD6kL5N2/exec";
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyTQ9m4xkrRPx2DBywnksgzZ5sNo3IKjUut_PN_QcAXaRmXY6p6u2qd3KtXDAkvn1vJ/exec";
 </script>
 
 <div class="header">
   <div class="header-inner">
     <div class="header-badge">
       <svg viewBox="0 0 24 24" fill="none" stroke="#0D1B2A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-        <circle cx="12" cy="10" r="3"/>
+        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
       </svg>
     </div>
     <div>
@@ -314,7 +120,6 @@ const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw51p_1X5yAf-80
 <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
 
 <div class="container" id="form-container">
-
   <div class="section-label">ESO Information</div>
   <div class="card">
     <div class="field">
@@ -365,45 +170,31 @@ const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw51p_1X5yAf-80
   <div class="card">
     <div class="coord-tabs">
       <button class="coord-tab active" onclick="switchTab('gps')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/>
-        </svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
         Auto GPS
       </button>
       <button class="coord-tab" onclick="switchTab('map')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/>
-          <line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/>
-        </svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg>
         Pin on Map
       </button>
       <button class="coord-tab" onclick="switchTab('manual')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
-          <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
-        </svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
         Manual
       </button>
     </div>
 
     <div class="coord-panel active" id="panel-gps">
       <button class="gps-btn" onclick="detectGPS()" id="gps-btn">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/>
-        </svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
         <span id="gps-btn-text">Detect My Location</span>
         <div class="spinner" id="gps-spinner"></div>
       </button>
       <div class="gps-result" id="gps-result">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="20 6 9 17 4 12"/>
-        </svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
         <span id="gps-coords-text">Location captured</span>
       </div>
       <div class="gps-error" id="gps-error">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;flex-shrink:0">
-          <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
-        </svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;flex-shrink:0"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
         <span id="gps-error-text">Could not detect location. Please allow location access or use another method.</span>
       </div>
     </div>
@@ -451,9 +242,7 @@ const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw51p_1X5yAf-80
   </div>
 
   <button class="submit-btn" id="submit-btn" onclick="submitForm()">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-      <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
-    </svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
     <span id="submit-text">Submit Location</span>
     <div class="spinner" id="submit-spinner"></div>
   </button>
@@ -463,9 +252,7 @@ const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw51p_1X5yAf-80
 
 <div class="success-screen container" id="success-screen">
   <div class="success-icon">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-      <polyline points="20 6 9 17 4 12"/>
-    </svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
   </div>
   <div class="success-title">Location Submitted!</div>
   <div class="success-sub" id="success-msg">Your learning center has been recorded successfully and will be shared with the 10X Programme team.</div>
@@ -489,9 +276,7 @@ function updateProgress() {
     document.getElementById('district').value,
   ];
   const filled = fields.filter(v => v.trim() !== '').length;
-  const total = fields.length + 1;
-  const coordsDone = coords ? 1 : 0;
-  const pct = Math.round(((filled + coordsDone) / total) * 100);
+  const pct = Math.round(((filled + (coords ? 1 : 0)) / (fields.length + 1)) * 100);
   document.getElementById('progress').style.width = pct + '%';
 }
 document.querySelectorAll('input, select').forEach(el => {
@@ -502,8 +287,7 @@ document.querySelectorAll('input, select').forEach(el => {
 function switchTab(tab) {
   currentTab = tab;
   document.querySelectorAll('.coord-tab').forEach((t, i) => {
-    const tabs = ['gps', 'map', 'manual'];
-    t.classList.toggle('active', tabs[i] === tab);
+    t.classList.toggle('active', ['gps','map','manual'][i] === tab);
   });
   document.querySelectorAll('.coord-panel').forEach(p => p.classList.remove('active'));
   document.getElementById('panel-' + tab).classList.add('active');
@@ -516,43 +300,27 @@ function detectGPS() {
   const txtEl = document.getElementById('gps-btn-text');
   const resultEl = document.getElementById('gps-result');
   const errorEl = document.getElementById('gps-error');
-
   if (!navigator.geolocation) { showGPSError('Geolocation not supported on this device.'); return; }
-
-  btn.disabled = true;
-  spinner.classList.add('show');
-  txtEl.textContent = 'Detecting...';
-  resultEl.classList.remove('show');
-  errorEl.classList.remove('show');
-
+  btn.disabled = true; spinner.classList.add('show'); txtEl.textContent = 'Detecting...';
+  resultEl.classList.remove('show'); errorEl.classList.remove('show');
   navigator.geolocation.getCurrentPosition(
     (pos) => {
       coords = { lat: pos.coords.latitude, lng: pos.coords.longitude };
-      spinner.classList.remove('show');
-      btn.disabled = false;
-      txtEl.textContent = 'Re-detect Location';
-      document.getElementById('gps-coords-text').textContent =
-        'Lat: ' + coords.lat.toFixed(6) + '  ·  Lng: ' + coords.lng.toFixed(6);
+      spinner.classList.remove('show'); btn.disabled = false; txtEl.textContent = 'Re-detect Location';
+      document.getElementById('gps-coords-text').textContent = 'Lat: ' + coords.lat.toFixed(6) + '  ·  Lng: ' + coords.lng.toFixed(6);
       resultEl.classList.add('show');
       document.getElementById('coords_err').classList.remove('show');
       updateProgress();
     },
     (err) => {
-      spinner.classList.remove('show');
-      btn.disabled = false;
-      txtEl.textContent = 'Detect My Location';
+      spinner.classList.remove('show'); btn.disabled = false; txtEl.textContent = 'Detect My Location';
       const msgs = { 1: 'Location access denied. Please allow location in browser settings.', 2: 'Location unavailable. Try again or use another method.', 3: 'Location request timed out. Try again.' };
       showGPSError(msgs[err.code] || 'Could not get location.');
     },
     { timeout: 12000, maximumAge: 0, enableHighAccuracy: true }
   );
 }
-
-function showGPSError(msg) {
-  const el = document.getElementById('gps-error');
-  document.getElementById('gps-error-text').textContent = msg;
-  el.classList.add('show');
-}
+function showGPSError(msg) { document.getElementById('gps-error-text').textContent = msg; document.getElementById('gps-error').classList.add('show'); }
 
 function initMap() {
   map = L.map('locator-map', { zoomControl: true }).setView([2.7747, 32.2990], 10);
@@ -586,8 +354,7 @@ function readManualCoords() {
 
 function handleFiles(files) {
   Array.from(files).forEach(file => {
-    if (photos.length >= 3) return;
-    if (file.size > 5 * 1024 * 1024) return;
+    if (photos.length >= 3 || file.size > 5 * 1024 * 1024) return;
     const reader = new FileReader();
     reader.onload = (e) => { photos.push({ name: file.name, data: e.target.result }); renderPreviews(); };
     reader.readAsDataURL(file);
@@ -603,7 +370,7 @@ function renderPreviews() {
   photos.forEach((p, i) => {
     const div = document.createElement('div');
     div.className = 'photo-thumb';
-    div.innerHTML = `<img src="${p.data}" alt="Photo ${i+1}" /><button class="photo-thumb-remove" onclick="removePhoto(${i})">×</button>`;
+    div.innerHTML = '<img src="' + p.data + '" alt="Photo ' + (i+1) + '" /><button class="photo-thumb-remove" onclick="removePhoto(' + i + ')">×</button>';
     container.appendChild(div);
   });
 }
@@ -614,7 +381,6 @@ function required(id, errId) {
   if (!el.value.trim()) { el.classList.add('invalid'); err.classList.add('show'); return false; }
   el.classList.remove('invalid'); err.classList.remove('show'); return true;
 }
-
 function validate() {
   let ok = true;
   ok = required('eso_name', 'eso_name_err') && ok;
@@ -637,13 +403,10 @@ async function submitForm() {
     document.querySelector('.field-error.show')?.closest('.card')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     return;
   }
-
   const btn = document.getElementById('submit-btn');
   const spinner = document.getElementById('submit-spinner');
   const txtEl = document.getElementById('submit-text');
-  btn.disabled = true;
-  spinner.classList.add('show');
-  txtEl.textContent = 'Submitting...';
+  btn.disabled = true; spinner.classList.add('show'); txtEl.textContent = 'Submitting...';
 
   const payload = {
     timestamp: new Date().toISOString(),
@@ -661,17 +424,34 @@ async function submitForm() {
   };
 
   try {
-    // ✅ KEY FIX: no Content-Type header — prevents CORS preflight 401
-    await fetch(APPS_SCRIPT_URL, {
-      method: 'POST',
-      mode: 'no-cors',
-      body: JSON.stringify(payload),
+    // ✅ Hidden iframe form submit — bypasses CORS entirely
+    await new Promise((resolve) => {
+      const iframe = document.createElement('iframe');
+      iframe.name = 'hidden_iframe_' + Date.now();
+      iframe.style.display = 'none';
+      iframe.onload = () => resolve();
+      document.body.appendChild(iframe);
+
+      const form = document.createElement('form');
+      form.method = 'POST';
+      form.action = APPS_SCRIPT_URL;
+      form.target = iframe.name;
+      form.style.display = 'none';
+
+      const input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = 'data';
+      input.value = JSON.stringify(payload);
+      form.appendChild(input);
+      document.body.appendChild(form);
+      form.submit();
+
+      // Fallback resolve after 4 seconds
+      setTimeout(resolve, 4000);
     });
     showSuccess(payload.center_name);
   } catch (e) {
-    btn.disabled = false;
-    spinner.classList.remove('show');
-    txtEl.textContent = 'Submit Location';
+    btn.disabled = false; spinner.classList.remove('show'); txtEl.textContent = 'Submit Location';
     showSubmitError('Submission failed. Please check your internet connection and try again.');
   }
 }
