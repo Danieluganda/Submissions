@@ -4,6 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 <title>Learning Center Locator — 10X Programme</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='11' fill='%230D1B2A'/%3E%3Ccircle cx='12' cy='12' r='4' fill='%23F5C518'/%3E%3C/svg%3E" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
@@ -15,7 +16,7 @@
      Replace the value of SCRIPT_URL with your deployed Apps Script web app URL
      ============================================================ */
   :root {
-    --script-url: "YOUR_APPS_SCRIPT_URL_HERE";
+    --script-url: "#";
 
     --navy: #0D1B2A;
     --navy-light: #1A2E42;
@@ -443,6 +444,19 @@
     padding-bottom: 8px;
   }
 
+  .submit-error {
+    margin-top: 12px;
+    padding: 12px 14px;
+    background: #FEF2F2;
+    border: 1px solid #FECACA;
+    border-radius: var(--radius-sm);
+    display: none;
+    font-size: 13px;
+    color: #991B1B;
+    line-height: 1.45;
+  }
+  .submit-error.show { display: block; }
+
   @media (min-width: 600px) {
     .container { padding: 28px 24px 0; }
     .card { padding: 20px; }
@@ -630,6 +644,7 @@ const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzss0rRYdnfUAJn
     <span id="submit-text">Submit Location</span>
     <div class="spinner" id="submit-spinner"></div>
   </button>
+  <div class="submit-error" id="submit-error"></div>
   <div class="footer-note">Data submitted to 10X Programme · UNCDF / Mastercard Foundation</div>
 </div>
 
@@ -874,6 +889,8 @@ function validate() {
 // SUBMIT
 // ============================================================
 async function submitForm() {
+  hideSubmitError();
+
   if (!validate()) {
     document.querySelector('.field-error.show')
       ?.closest('.card')
@@ -922,8 +939,25 @@ async function submitForm() {
     btn.disabled = false;
     spinner.classList.remove('show');
     txtEl.textContent = 'Submit Location';
-    alert('Submission failed. Please check your internet connection and try again.');
+    const isAppsScript = APPS_SCRIPT_URL && APPS_SCRIPT_URL.includes('script.google.com');
+    if (isAppsScript) {
+      showSubmitError('Submission failed. Apps Script returned an authorization/configuration error. In Apps Script deployment, set Execute as: Me and Who has access: Anyone, then redeploy and update APPS_SCRIPT_URL if needed.');
+    } else {
+      showSubmitError('Submission failed. Please check your internet connection and try again.');
+    }
   }
+}
+
+function showSubmitError(message) {
+  const el = document.getElementById('submit-error');
+  el.textContent = message;
+  el.classList.add('show');
+}
+
+function hideSubmitError() {
+  const el = document.getElementById('submit-error');
+  el.textContent = '';
+  el.classList.remove('show');
 }
 
 function showSuccess(centerName) {
@@ -952,6 +986,7 @@ function resetForm() {
   document.getElementById('submit-btn').disabled = false;
   document.getElementById('submit-spinner').classList.remove('show');
   document.getElementById('submit-text').textContent = 'Submit Location';
+  hideSubmitError();
   updateProgress();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
