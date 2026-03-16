@@ -11,13 +11,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 
 <style>
-  /* ============================================================
-     CONFIGURE YOUR GOOGLE APPS SCRIPT URL BELOW
-     Replace the value of SCRIPT_URL with your deployed Apps Script web app URL
-     ============================================================ */
   :root {
-    --script-url: "#";
-
     --navy: #0D1B2A;
     --navy-light: #1A2E42;
     --accent: #F5C518;
@@ -44,7 +38,6 @@
     padding-bottom: 40px;
   }
 
-  /* ---- HEADER ---- */
   .header {
     background: var(--navy);
     padding: 20px 20px 24px;
@@ -73,26 +66,11 @@
   .header-title { color: var(--white); font-size: 16px; font-weight: 600; line-height: 1.2; }
   .header-sub { color: #94A3B8; font-size: 12px; font-weight: 400; margin-top: 2px; }
 
-  /* ---- PROGRESS ---- */
-  .progress-bar {
-    background: var(--navy-light);
-    height: 3px;
-  }
-  .progress-fill {
-    background: var(--accent);
-    height: 100%;
-    width: 0%;
-    transition: width 0.4s ease;
-  }
+  .progress-bar { background: var(--navy-light); height: 3px; }
+  .progress-fill { background: var(--accent); height: 100%; width: 0%; transition: width 0.4s ease; }
 
-  /* ---- CONTAINER ---- */
-  .container {
-    max-width: 560px;
-    margin: 0 auto;
-    padding: 24px 16px 0;
-  }
+  .container { max-width: 560px; margin: 0 auto; padding: 24px 16px 0; }
 
-  /* ---- SECTION LABELS ---- */
   .section-label {
     font-size: 11px;
     font-weight: 600;
@@ -104,15 +82,9 @@
     align-items: center;
     gap: 8px;
   }
-  .section-label::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--border);
-  }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
   .section-label:first-child { margin-top: 0; }
 
-  /* ---- CARD ---- */
   .card {
     background: var(--white);
     border-radius: var(--radius);
@@ -121,16 +93,9 @@
     margin-bottom: 12px;
   }
 
-  /* ---- FORM FIELDS ---- */
   .field { margin-bottom: 16px; }
   .field:last-child { margin-bottom: 0; }
-  .field label {
-    display: block;
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--text);
-    margin-bottom: 6px;
-  }
+  .field label { display: block; font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 6px; }
   .field label span.req { color: var(--error); margin-left: 2px; }
 
   .field input[type="text"],
@@ -150,23 +115,14 @@
     transition: border-color 0.2s, box-shadow 0.2s;
     -webkit-appearance: none;
   }
-  .field input:focus,
-  .field select:focus,
-  .field textarea:focus {
+  .field input:focus, .field select:focus, .field textarea:focus {
     border-color: var(--navy);
     box-shadow: 0 0 0 3px rgba(13,27,42,0.08);
     background: var(--white);
   }
-  .field input::placeholder,
-  .field textarea::placeholder { color: var(--text-light); }
+  .field input::placeholder, .field textarea::placeholder { color: var(--text-light); }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 
-  .field-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-  }
-
-  /* ---- COORDINATES TABS ---- */
   .coord-tabs {
     display: flex;
     background: var(--surface);
@@ -193,17 +149,12 @@
     justify-content: center;
     gap: 5px;
   }
-  .coord-tab.active {
-    background: var(--navy);
-    color: var(--white);
-    box-shadow: 0 1px 4px rgba(0,0,0,0.15);
-  }
+  .coord-tab.active { background: var(--navy); color: var(--white); box-shadow: 0 1px 4px rgba(0,0,0,0.15); }
   .coord-tab svg { width: 14px; height: 14px; flex-shrink: 0; }
 
   .coord-panel { display: none; }
   .coord-panel.active { display: block; }
 
-  /* ---- GPS BUTTON ---- */
   .gps-btn {
     width: 100%;
     padding: 14px;
@@ -226,143 +177,65 @@
   .gps-btn svg { width: 18px; height: 18px; flex-shrink: 0; }
 
   .gps-result {
-    margin-top: 12px;
-    padding: 12px 14px;
-    background: #ECFDF5;
-    border: 1px solid #A7F3D0;
-    border-radius: var(--radius-sm);
-    display: none;
-    font-size: 13px;
-    color: #065F46;
-    font-weight: 500;
-    align-items: center;
-    gap: 8px;
+    margin-top: 12px; padding: 12px 14px;
+    background: #ECFDF5; border: 1px solid #A7F3D0;
+    border-radius: var(--radius-sm); display: none;
+    font-size: 13px; color: #065F46; font-weight: 500;
+    align-items: center; gap: 8px;
   }
   .gps-result.show { display: flex; }
-  .gps-result svg { width: 16px; height: 16px; flex-shrink: 0; color: var(--success); }
+  .gps-result svg { width: 16px; height: 16px; flex-shrink: 0; }
 
   .gps-error {
-    margin-top: 12px;
-    padding: 12px 14px;
-    background: #FEF2F2;
-    border: 1px solid #FECACA;
-    border-radius: var(--radius-sm);
-    display: none;
-    font-size: 13px;
-    color: #991B1B;
-    align-items: center;
-    gap: 8px;
+    margin-top: 12px; padding: 12px 14px;
+    background: #FEF2F2; border: 1px solid #FECACA;
+    border-radius: var(--radius-sm); display: none;
+    font-size: 13px; color: #991B1B; align-items: center; gap: 8px;
   }
   .gps-error.show { display: flex; }
 
-  /* ---- MAP ---- */
-  #map-container {
-    border-radius: var(--radius-sm);
-    overflow: hidden;
-    border: 1px solid var(--border);
-  }
+  #map-container { border-radius: var(--radius-sm); overflow: hidden; border: 1px solid var(--border); }
   #locator-map { height: 240px; width: 100%; }
   .map-hint {
-    padding: 8px 12px;
-    background: var(--surface);
-    font-size: 12px;
-    color: var(--text-muted);
-    display: flex;
-    align-items: center;
-    gap: 6px;
+    padding: 8px 12px; background: var(--surface); font-size: 12px;
+    color: var(--text-muted); display: flex; align-items: center; gap: 6px;
     border-top: 1px solid var(--border);
   }
   .map-hint svg { width: 12px; height: 12px; }
   .map-coords-display {
-    margin-top: 10px;
-    padding: 10px 12px;
-    background: var(--surface);
-    border-radius: var(--radius-sm);
-    border: 1px solid var(--border);
-    font-size: 13px;
-    color: var(--text);
-    font-family: monospace;
-    display: none;
+    margin-top: 10px; padding: 10px 12px; background: var(--surface);
+    border-radius: var(--radius-sm); border: 1px solid var(--border);
+    font-size: 13px; color: var(--text); font-family: monospace; display: none;
   }
   .map-coords-display.show { display: block; }
 
-  /* ---- PHOTO UPLOAD ---- */
   .photo-drop {
-    border: 2px dashed var(--border);
-    border-radius: var(--radius-sm);
-    padding: 24px 16px;
-    text-align: center;
-    cursor: pointer;
-    transition: border-color 0.2s, background 0.2s;
-    position: relative;
+    border: 2px dashed var(--border); border-radius: var(--radius-sm);
+    padding: 24px 16px; text-align: center; cursor: pointer;
+    transition: border-color 0.2s, background 0.2s; position: relative;
   }
-  .photo-drop:hover, .photo-drop.drag-over {
-    border-color: var(--navy);
-    background: rgba(13,27,42,0.03);
-  }
-  .photo-drop input[type="file"] {
-    position: absolute;
-    inset: 0;
-    opacity: 0;
-    cursor: pointer;
-    width: 100%;
-    height: 100%;
-  }
+  .photo-drop:hover, .photo-drop.drag-over { border-color: var(--navy); background: rgba(13,27,42,0.03); }
+  .photo-drop input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
   .photo-drop-icon { font-size: 28px; margin-bottom: 8px; }
   .photo-drop-text { font-size: 14px; font-weight: 500; color: var(--text); }
   .photo-drop-sub { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
 
-  .photo-previews {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-    margin-top: 12px;
-  }
-  .photo-thumb {
-    aspect-ratio: 1;
-    border-radius: var(--radius-sm);
-    overflow: hidden;
-    position: relative;
-    border: 1px solid var(--border);
-  }
+  .photo-previews { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 12px; }
+  .photo-thumb { aspect-ratio: 1; border-radius: var(--radius-sm); overflow: hidden; position: relative; border: 1px solid var(--border); }
   .photo-thumb img { width: 100%; height: 100%; object-fit: cover; }
   .photo-thumb-remove {
-    position: absolute;
-    top: 4px;
-    right: 4px;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background: rgba(0,0,0,0.6);
-    color: white;
-    border: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 12px;
-    line-height: 1;
+    position: absolute; top: 4px; right: 4px; width: 20px; height: 20px;
+    border-radius: 50%; background: rgba(0,0,0,0.6); color: white; border: none;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    font-size: 12px; line-height: 1;
   }
 
-  /* ---- SUBMIT ---- */
   .submit-btn {
-    width: 100%;
-    padding: 16px;
-    background: var(--accent);
-    color: var(--navy);
-    border: none;
-    border-radius: var(--radius);
-    font-family: 'Outfit', sans-serif;
-    font-size: 16px;
-    font-weight: 700;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 24px;
-    transition: background 0.2s, transform 0.1s;
-    -webkit-tap-highlight-color: transparent;
+    width: 100%; padding: 16px; background: var(--accent); color: var(--navy);
+    border: none; border-radius: var(--radius); font-family: 'Outfit', sans-serif;
+    font-size: 16px; font-weight: 700; cursor: pointer; display: flex;
+    align-items: center; justify-content: center; gap: 10px; margin-top: 24px;
+    transition: background 0.2s, transform 0.1s; -webkit-tap-highlight-color: transparent;
     letter-spacing: 0.01em;
   }
   .submit-btn:hover { background: var(--accent-dark); }
@@ -370,92 +243,46 @@
   .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
   .submit-btn svg { width: 18px; height: 18px; }
 
-  /* ---- SUCCESS STATE ---- */
   .success-screen {
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 60vh;
-    text-align: center;
-    padding: 40px 24px;
+    display: none; flex-direction: column; align-items: center;
+    justify-content: center; min-height: 60vh; text-align: center; padding: 40px 24px;
   }
   .success-screen.show { display: flex; }
   .success-icon {
-    width: 72px;
-    height: 72px;
-    border-radius: 50%;
-    background: #ECFDF5;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 20px;
-    border: 2px solid #A7F3D0;
+    width: 72px; height: 72px; border-radius: 50%; background: #ECFDF5;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 20px; border: 2px solid #A7F3D0;
   }
   .success-icon svg { width: 36px; height: 36px; color: var(--success); }
   .success-title { font-size: 22px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
   .success-sub { font-size: 15px; color: var(--text-muted); line-height: 1.6; max-width: 320px; }
   .success-new-btn {
-    margin-top: 28px;
-    padding: 13px 28px;
-    background: var(--navy);
-    color: var(--white);
-    border: none;
-    border-radius: var(--radius);
-    font-family: 'Outfit', sans-serif;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.2s;
+    margin-top: 28px; padding: 13px 28px; background: var(--navy); color: var(--white);
+    border: none; border-radius: var(--radius); font-family: 'Outfit', sans-serif;
+    font-size: 15px; font-weight: 600; cursor: pointer; transition: background 0.2s;
   }
   .success-new-btn:hover { background: var(--navy-light); }
 
-  /* ---- LOADING SPINNER ---- */
   .spinner {
-    width: 18px;
-    height: 18px;
-    border: 2px solid rgba(13,27,42,0.3);
-    border-top-color: var(--navy);
-    border-radius: 50%;
-    animation: spin 0.7s linear infinite;
-    display: none;
+    width: 18px; height: 18px; border: 2px solid rgba(13,27,42,0.3);
+    border-top-color: var(--navy); border-radius: 50%;
+    animation: spin 0.7s linear infinite; display: none;
   }
   .spinner.show { display: block; }
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  /* ---- FIELD ERROR ---- */
-  .field-error {
-    font-size: 12px;
-    color: var(--error);
-    margin-top: 5px;
-    display: none;
-  }
+  .field-error { font-size: 12px; color: var(--error); margin-top: 5px; display: none; }
   .field-error.show { display: block; }
-  .field input.invalid, .field select.invalid, .field textarea.invalid {
-    border-color: var(--error);
-  }
-
-  /* ---- FOOTER NOTE ---- */
-  .footer-note {
-    text-align: center;
-    font-size: 11px;
-    color: var(--text-light);
-    margin-top: 16px;
-    padding-bottom: 8px;
-  }
+  .field input.invalid, .field select.invalid, .field textarea.invalid { border-color: var(--error); }
 
   .submit-error {
-    margin-top: 12px;
-    padding: 12px 14px;
-    background: #FEF2F2;
-    border: 1px solid #FECACA;
-    border-radius: var(--radius-sm);
-    display: none;
-    font-size: 13px;
-    color: #991B1B;
-    line-height: 1.45;
+    margin-top: 12px; padding: 12px 14px; background: #FEF2F2;
+    border: 1px solid #FECACA; border-radius: var(--radius-sm);
+    display: none; font-size: 13px; color: #991B1B; line-height: 1.45;
   }
   .submit-error.show { display: block; }
+
+  .footer-note { text-align: center; font-size: 11px; color: var(--text-light); margin-top: 16px; padding-bottom: 8px; }
 
   @media (min-width: 600px) {
     .container { padding: 28px 24px 0; }
@@ -466,15 +293,10 @@
 </head>
 <body>
 
-<!-- =====================================================
-     CONFIGURE YOUR GOOGLE APPS SCRIPT URL HERE
-     After deploying your Apps Script, paste the URL below
-     ===================================================== -->
 <script>
 const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw51p_1X5yAf-80bCduM20bLVwAtL1vM61mG78j_87RpT6msnoiRrbOkCUSKD6kL5N2/exec";
 </script>
 
-<!-- HEADER -->
 <div class="header">
   <div class="header-inner">
     <div class="header-badge">
@@ -491,10 +313,8 @@ const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw51p_1X5yAf-80
 </div>
 <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
 
-<!-- MAIN FORM -->
 <div class="container" id="form-container">
 
-  <!-- ESO INFORMATION -->
   <div class="section-label">ESO Information</div>
   <div class="card">
     <div class="field">
@@ -514,7 +334,6 @@ const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw51p_1X5yAf-80
     </div>
   </div>
 
-  <!-- LEARNING CENTER DETAILS -->
   <div class="section-label">Learning Center Details</div>
   <div class="card">
     <div class="field">
@@ -542,7 +361,6 @@ const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw51p_1X5yAf-80
     </div>
   </div>
 
-  <!-- COORDINATES -->
   <div class="section-label">GPS Coordinates</div>
   <div class="card">
     <div class="coord-tabs">
@@ -568,7 +386,6 @@ const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw51p_1X5yAf-80
       </button>
     </div>
 
-    <!-- GPS PANEL -->
     <div class="coord-panel active" id="panel-gps">
       <button class="gps-btn" onclick="detectGPS()" id="gps-btn">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -591,7 +408,6 @@ const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw51p_1X5yAf-80
       </div>
     </div>
 
-    <!-- MAP PANEL -->
     <div class="coord-panel" id="panel-map">
       <div id="map-container">
         <div id="locator-map"></div>
@@ -603,7 +419,6 @@ const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw51p_1X5yAf-80
       <div class="map-coords-display" id="map-coords-display"></div>
     </div>
 
-    <!-- MANUAL PANEL -->
     <div class="coord-panel" id="panel-manual">
       <div class="field-row">
         <div class="field">
@@ -621,7 +436,6 @@ const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw51p_1X5yAf-80
     <div class="field-error" id="coords_err" style="margin-top:8px">Coordinates are required — use GPS, pin on map, or enter manually</div>
   </div>
 
-  <!-- PHOTO UPLOAD -->
   <div class="section-label">Photo Evidence</div>
   <div class="card">
     <div class="field" style="margin-bottom:0">
@@ -636,7 +450,6 @@ const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw51p_1X5yAf-80
     </div>
   </div>
 
-  <!-- SUBMIT -->
   <button class="submit-btn" id="submit-btn" onclick="submitForm()">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
       <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
@@ -648,7 +461,6 @@ const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw51p_1X5yAf-80
   <div class="footer-note">Data submitted to 10X Programme · UNCDF / Mastercard Foundation</div>
 </div>
 
-<!-- SUCCESS SCREEN -->
 <div class="success-screen container" id="success-screen">
   <div class="success-icon">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -661,18 +473,12 @@ const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw51p_1X5yAf-80
 </div>
 
 <script>
-// ============================================================
-// STATE
-// ============================================================
 let currentTab = 'gps';
-let coords = null; // { lat, lng }
+let coords = null;
 let photos = [];
 let map = null;
 let mapMarker = null;
 
-// ============================================================
-// PROGRESS
-// ============================================================
 function updateProgress() {
   const fields = [
     document.getElementById('eso_name').value,
@@ -683,7 +489,7 @@ function updateProgress() {
     document.getElementById('district').value,
   ];
   const filled = fields.filter(v => v.trim() !== '').length;
-  const total = fields.length + 1; // +1 for coords
+  const total = fields.length + 1;
   const coordsDone = coords ? 1 : 0;
   const pct = Math.round(((filled + coordsDone) / total) * 100);
   document.getElementById('progress').style.width = pct + '%';
@@ -693,9 +499,6 @@ document.querySelectorAll('input, select').forEach(el => {
   el.addEventListener('change', updateProgress);
 });
 
-// ============================================================
-// COORD TABS
-// ============================================================
 function switchTab(tab) {
   currentTab = tab;
   document.querySelectorAll('.coord-tab').forEach((t, i) => {
@@ -704,13 +507,9 @@ function switchTab(tab) {
   });
   document.querySelectorAll('.coord-panel').forEach(p => p.classList.remove('active'));
   document.getElementById('panel-' + tab).classList.add('active');
-
   if (tab === 'map' && !map) initMap();
 }
 
-// ============================================================
-// GPS DETECT
-// ============================================================
 function detectGPS() {
   const btn = document.getElementById('gps-btn');
   const spinner = document.getElementById('gps-spinner');
@@ -718,10 +517,7 @@ function detectGPS() {
   const resultEl = document.getElementById('gps-result');
   const errorEl = document.getElementById('gps-error');
 
-  if (!navigator.geolocation) {
-    showGPSError('Geolocation not supported on this device.');
-    return;
-  }
+  if (!navigator.geolocation) { showGPSError('Geolocation not supported on this device.'); return; }
 
   btn.disabled = true;
   spinner.classList.add('show');
@@ -745,11 +541,7 @@ function detectGPS() {
       spinner.classList.remove('show');
       btn.disabled = false;
       txtEl.textContent = 'Detect My Location';
-      const msgs = {
-        1: 'Location access denied. Please allow location in browser settings.',
-        2: 'Location unavailable. Try again or use another method.',
-        3: 'Location request timed out. Try again.',
-      };
+      const msgs = { 1: 'Location access denied. Please allow location in browser settings.', 2: 'Location unavailable. Try again or use another method.', 3: 'Location request timed out. Try again.' };
       showGPSError(msgs[err.code] || 'Could not get location.');
     },
     { timeout: 12000, maximumAge: 0, enableHighAccuracy: true }
@@ -762,16 +554,9 @@ function showGPSError(msg) {
   el.classList.add('show');
 }
 
-// ============================================================
-// MAP
-// ============================================================
 function initMap() {
-  // Default center: Northern Uganda (Gulu)
   map = L.map('locator-map', { zoomControl: true }).setView([2.7747, 32.2990], 10);
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '© OpenStreetMap'
-  }).addTo(map);
-
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '© OpenStreetMap' }).addTo(map);
   map.on('click', function(e) {
     const { lat, lng } = e.latlng;
     coords = { lat: parseFloat(lat.toFixed(6)), lng: parseFloat(lng.toFixed(6)) };
@@ -783,13 +568,9 @@ function initMap() {
     document.getElementById('coords_err').classList.remove('show');
     updateProgress();
   });
-
   setTimeout(() => map.invalidateSize(), 200);
 }
 
-// ============================================================
-// MANUAL COORDS
-// ============================================================
 document.getElementById('lat_manual').addEventListener('input', readManualCoords);
 document.getElementById('lng_manual').addEventListener('input', readManualCoords);
 function readManualCoords() {
@@ -799,47 +580,23 @@ function readManualCoords() {
     coords = { lat, lng };
     document.getElementById('manual_coords_err').classList.remove('show');
     document.getElementById('coords_err').classList.remove('show');
-  } else {
-    coords = null;
-  }
+  } else { coords = null; }
   updateProgress();
 }
 
-// ============================================================
-// PHOTO UPLOAD
-// ============================================================
 function handleFiles(files) {
-  const arr = Array.from(files);
-  arr.forEach(file => {
+  Array.from(files).forEach(file => {
     if (photos.length >= 3) return;
     if (file.size > 5 * 1024 * 1024) return;
     const reader = new FileReader();
-    reader.onload = (e) => {
-      photos.push({ name: file.name, data: e.target.result });
-      renderPreviews();
-    };
+    reader.onload = (e) => { photos.push({ name: file.name, data: e.target.result }); renderPreviews(); };
     reader.readAsDataURL(file);
   });
 }
-
-function handleDragOver(e) {
-  e.preventDefault();
-  document.getElementById('photo-drop').classList.add('drag-over');
-}
-function handleDragLeave(e) {
-  document.getElementById('photo-drop').classList.remove('drag-over');
-}
-function handleDrop(e) {
-  e.preventDefault();
-  document.getElementById('photo-drop').classList.remove('drag-over');
-  handleFiles(e.dataTransfer.files);
-}
-
-function removePhoto(idx) {
-  photos.splice(idx, 1);
-  renderPreviews();
-}
-
+function handleDragOver(e) { e.preventDefault(); document.getElementById('photo-drop').classList.add('drag-over'); }
+function handleDragLeave(e) { document.getElementById('photo-drop').classList.remove('drag-over'); }
+function handleDrop(e) { e.preventDefault(); document.getElementById('photo-drop').classList.remove('drag-over'); handleFiles(e.dataTransfer.files); }
+function removePhoto(idx) { photos.splice(idx, 1); renderPreviews(); }
 function renderPreviews() {
   const container = document.getElementById('photo-previews');
   container.innerHTML = '';
@@ -851,20 +608,11 @@ function renderPreviews() {
   });
 }
 
-// ============================================================
-// VALIDATION
-// ============================================================
 function required(id, errId) {
   const el = document.getElementById(id);
   const err = document.getElementById(errId);
-  if (!el.value.trim()) {
-    el.classList.add('invalid');
-    err.classList.add('show');
-    return false;
-  }
-  el.classList.remove('invalid');
-  err.classList.remove('show');
-  return true;
+  if (!el.value.trim()) { el.classList.add('invalid'); err.classList.add('show'); return false; }
+  el.classList.remove('invalid'); err.classList.remove('show'); return true;
 }
 
 function validate() {
@@ -875,33 +623,24 @@ function validate() {
   ok = required('center_name', 'center_name_err') && ok;
   ok = required('region', 'region_err') && ok;
   ok = required('district', 'district_err') && ok;
-
   if (!coords) {
     document.getElementById('coords_err').classList.add('show');
     if (currentTab === 'manual') document.getElementById('manual_coords_err').classList.add('show');
     ok = false;
   }
-
   return ok;
 }
 
-// ============================================================
-// SUBMIT
-// ============================================================
 async function submitForm() {
   hideSubmitError();
-
   if (!validate()) {
-    document.querySelector('.field-error.show')
-      ?.closest('.card')
-      ?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    document.querySelector('.field-error.show')?.closest('.card')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     return;
   }
 
   const btn = document.getElementById('submit-btn');
   const spinner = document.getElementById('submit-spinner');
   const txtEl = document.getElementById('submit-text');
-
   btn.disabled = true;
   spinner.classList.add('show');
   txtEl.textContent = 'Submitting...';
@@ -922,72 +661,44 @@ async function submitForm() {
   };
 
   try {
-    if (!APPS_SCRIPT_URL || APPS_SCRIPT_URL === 'YOUR_APPS_SCRIPT_URL_HERE') {
-      // DEMO MODE — no script configured
-      await new Promise(r => setTimeout(r, 1200));
-      showSuccess(payload.center_name);
-    } else {
-      const res = await fetch(APPS_SCRIPT_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      });
-      showSuccess(payload.center_name);
-    }
+    // ✅ KEY FIX: no Content-Type header — prevents CORS preflight 401
+    await fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      body: JSON.stringify(payload),
+    });
+    showSuccess(payload.center_name);
   } catch (e) {
     btn.disabled = false;
     spinner.classList.remove('show');
     txtEl.textContent = 'Submit Location';
-    const isAppsScript = APPS_SCRIPT_URL && APPS_SCRIPT_URL.includes('script.google.com');
-    if (isAppsScript) {
-      showSubmitError('Submission failed. Apps Script returned an authorization/configuration error. In Apps Script deployment, set Execute as: Me and Who has access: Anyone, then redeploy and update APPS_SCRIPT_URL if needed.');
-    } else {
-      showSubmitError('Submission failed. Please check your internet connection and try again.');
-    }
+    showSubmitError('Submission failed. Please check your internet connection and try again.');
   }
 }
 
-function showSubmitError(message) {
-  const el = document.getElementById('submit-error');
-  el.textContent = message;
-  el.classList.add('show');
-}
-
-function hideSubmitError() {
-  const el = document.getElementById('submit-error');
-  el.textContent = '';
-  el.classList.remove('show');
-}
+function showSubmitError(msg) { const el = document.getElementById('submit-error'); el.textContent = msg; el.classList.add('show'); }
+function hideSubmitError() { const el = document.getElementById('submit-error'); el.textContent = ''; el.classList.remove('show'); }
 
 function showSuccess(centerName) {
   document.getElementById('form-container').style.display = 'none';
-  const s = document.getElementById('success-screen');
-  s.classList.add('show');
-  document.getElementById('success-msg').textContent =
-    '"' + centerName + '" has been recorded successfully and will be shared with the 10X Programme team.';
+  document.getElementById('success-screen').classList.add('show');
+  document.getElementById('success-msg').textContent = '"' + centerName + '" has been recorded successfully and will be shared with the 10X Programme team.';
   document.getElementById('progress').style.width = '100%';
 }
 
 function resetForm() {
   document.getElementById('form-container').style.display = 'block';
   document.getElementById('success-screen').classList.remove('show');
-  document.getElementById('form-container').querySelectorAll('input, select').forEach(el => {
-    el.value = '';
-    el.classList.remove('invalid');
-  });
+  document.getElementById('form-container').querySelectorAll('input, select').forEach(el => { el.value = ''; el.classList.remove('invalid'); });
   document.querySelectorAll('.field-error').forEach(el => el.classList.remove('show'));
-  coords = null;
-  photos = [];
-  renderPreviews();
+  coords = null; photos = []; renderPreviews();
   document.getElementById('gps-result').classList.remove('show');
   document.getElementById('gps-error').classList.remove('show');
   document.getElementById('gps-btn-text').textContent = 'Detect My Location';
   document.getElementById('submit-btn').disabled = false;
   document.getElementById('submit-spinner').classList.remove('show');
   document.getElementById('submit-text').textContent = 'Submit Location';
-  hideSubmitError();
-  updateProgress();
+  hideSubmitError(); updateProgress();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 </script>
